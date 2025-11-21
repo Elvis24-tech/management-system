@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'; 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/layout/Sidebar';
+import Navbar from './components/layout/Navbar';
+
+// Page Imports
+import Dashboard from './pages/Dashboard';
+import Properties from './pages/Properties';
+import Tenants from './pages/Tenants';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <Router>
+      <div className="flex bg-gray-50 min-h-screen">
+        
+        {/* Sidebar: Fixed component on the left */}
+        <Sidebar />
+        
+        {/* Main Content Area: Flexes to fill space, margin compensates for sidebar width */}
+        <div className="flex-1 ml-64"> 
+          <Navbar />
+          <main className="p-8">
+            <Routes>
+              {/* Core Application Routes */}
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/properties" element={<Properties />} />
+              <Route path="/tenants" element={<Tenants />} />
+              
+              {/* Placeholder Routes */}
+              <Route path="/maintenance" element={
+                <div className="bg-white p-6 rounded-xl shadow-lg">
+                  <h2 className="text-3xl font-bold text-gray-800">Maintenance Management</h2>
+                  <p className="mt-2 text-gray-600">This page will house interactive maintenance tracking.</p>
+                </div>
+              } />
+              <Route path="/settings" element={
+                <div className="bg-white p-6 rounded-xl shadow-lg">
+                  <h2 className="text-3xl font-bold text-gray-800">Application Settings</h2>
+                  <p className="mt-2 text-gray-600">Configure users, roles, and system preferences here.</p>
+                </div>
+              } />
+            </Routes>
+          </main>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;
